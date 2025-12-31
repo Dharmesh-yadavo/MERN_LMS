@@ -25,7 +25,7 @@ mongoose
   .catch((e) => console.log(e));
 
 // routes configuration
-aap.use("/auth", authRoutes);
+app.use("/auth", authRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
