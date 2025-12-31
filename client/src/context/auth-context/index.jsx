@@ -1,22 +1,71 @@
 /* eslint-disable react-refresh/only-export-components */
 
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
-import { registerServices } from "@/servises";
-import { createContext, useState } from "react";
+import { checkAuthService, loginService, registerServices } from "@/servises";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
   const [signInFormData, setSignInFormData] = useState(initialSignInFormData);
   const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData);
+  const [auth, setAuth] = useState({
+    authenticate: false,
+    user: null,
+  });
 
   const handleRegisterUser = async (event) => {
     event.preventDefault();
 
     const data = await registerServices(signUpFormData);
-
-    console.log(data);
+    return data;
   };
+
+  const handleLoginUser = async (event) => {
+    event.preventDefault();
+
+    const data = await loginService(signInFormData);
+
+    if (data.success) {
+      sessionStorage.setItem(
+        "accessToken",
+        JSON.stringify(data.data.accessToken)
+      );
+      setAuth({
+        authenticate: true,
+        user: data.data.user,
+      });
+    } else {
+      setAuth({
+        authenticate: false,
+        user: null,
+      });
+    }
+  };
+
+  const checkAuthUser = async () => {
+    try {
+      const data = await checkAuthService();
+
+      if (data.success) {
+        setAuth({
+          authenticate: true,
+          user: data.data.user,
+        });
+      } else {
+        setAuth({
+          authenticate: false,
+          user: null,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    checkAuthUser();
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -26,6 +75,7 @@ export default function AuthProvider({ children }) {
         signUpFormData,
         setSignUpFormData,
         handleRegisterUser,
+        handleLoginUser,
       }}
     >
       {children}
