@@ -6,6 +6,7 @@ import { AuthContext } from "./context/auth-context/index.jsx";
 import { InstructorDashboard } from "./pages/instructor/index.jsx";
 import { StudentViewCommonLayout } from "./components/student-view/common-layout.jsx";
 import { StudentHomePage } from "./pages/student/index.jsx";
+import { NotFoundPage } from "./pages/not-found/index.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -50,6 +51,10 @@ function App() {
           element: <StudentHomePage />,
         },
       ],
+    },
+    {
+      path: "*",
+      element: <NotFoundPage />,
     },
   ]);
 
