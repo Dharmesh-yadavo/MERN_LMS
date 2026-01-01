@@ -10,7 +10,7 @@ export default function AuthProvider({ children }) {
   const [signInFormData, setSignInFormData] = useState(initialSignInFormData);
   const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData);
   const [auth, setAuth] = useState({
-    authenticate: false,
+    authenticated: false,
     user: null,
   });
 
@@ -32,12 +32,12 @@ export default function AuthProvider({ children }) {
         JSON.stringify(data.data.accessToken)
       );
       setAuth({
-        authenticate: true,
+        authenticated: true,
         user: data.data.user,
       });
     } else {
       setAuth({
-        authenticate: false,
+        authenticated: false,
         user: null,
       });
     }
@@ -49,12 +49,12 @@ export default function AuthProvider({ children }) {
 
       if (data.success) {
         setAuth({
-          authenticate: true,
+          authenticated: true,
           user: data.data.user,
         });
       } else {
         setAuth({
-          authenticate: false,
+          authenticated: false,
           user: null,
         });
       }
@@ -76,6 +76,7 @@ export default function AuthProvider({ children }) {
         setSignUpFormData,
         handleRegisterUser,
         handleLoginUser,
+        auth,
       }}
     >
       {children}

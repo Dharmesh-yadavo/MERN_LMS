@@ -30,6 +30,6 @@ export const RouteGuard = ({ authenticated, user, element }) => {
   }
 
   //! SUCCESS: If all checks pass, wrap the page in an invisible Fragment and show it
+  // fragment is (<>...</>) a ghost wrapper.
   return <Fragment>{element}</Fragment>;
-  // fragment is (<>...</>) a "ghost" wrapper.
 };
