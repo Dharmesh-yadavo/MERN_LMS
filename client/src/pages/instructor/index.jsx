@@ -2,11 +2,14 @@ import { InstructorCourses } from "@/components/instructor-view/courses";
 import { InstructorDashboard } from "@/components/instructor-view/dashboard";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { AuthContext } from "@/context/auth-context";
 import { BarChart, Book, LogOut } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 export const InstructorDashboardPage = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const { resetCredentials } = useContext(AuthContext);
+
   const menuItems = [
     {
       icon: BarChart,
@@ -28,7 +31,10 @@ export const InstructorDashboardPage = () => {
     },
   ];
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    resetCredentials();
+    sessionStorage.clear();
+  };
 
   return (
     <div className="flex h-full min-h-screen bg-gray-100">
