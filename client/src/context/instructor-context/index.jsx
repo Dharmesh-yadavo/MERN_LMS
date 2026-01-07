@@ -16,6 +16,8 @@ const InstructorProvider = ({ children }) => {
     courseCurriculumInitialFormData
   );
 
+  const [mediaUploadProgress, setMediaUploadProgress] = useState(false);
+
   return (
     <InstructorContext.Provider
       value={{
@@ -23,6 +25,8 @@ const InstructorProvider = ({ children }) => {
         setCourseLandingFormData,
         courseCurriculumFormData,
         setCourseCurriculumFormData,
+        mediaUploadProgress,
+        setMediaUploadProgress,
       }}
     >
       {children}

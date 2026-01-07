@@ -9,7 +9,7 @@ const router = express.Router();
 
 const upload = multer({ dest: "uploads/" });
 
-router.post("/uploads", async (req, res) => {
+router.post("/upload", upload.single("file"), async (req, res) => {
   try {
     console.log(req);
     const result = await uploadMediaToCloudinary(req.file.path);
