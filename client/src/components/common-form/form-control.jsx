@@ -29,7 +29,6 @@ export const FormControls = ({ formControls = [], formData, setFormData }) => {
                 [getControlItem.name]: event.target.value,
               })
             }
-            className="mt-2"
           />
         );
         break;
@@ -72,7 +71,6 @@ export const FormControls = ({ formControls = [], formData, setFormData }) => {
                 [getControlItem.name]: event.target.value,
               })
             }
-            className="mt-2"
           />
         );
         break;
@@ -91,7 +89,6 @@ export const FormControls = ({ formControls = [], formData, setFormData }) => {
                 [getControlItem.name]: event.target.value,
               })
             }
-            className="mt-2"
           />
         );
         break;
@@ -103,7 +100,7 @@ export const FormControls = ({ formControls = [], formData, setFormData }) => {
   return (
     <div className="flex flex-col gap-3">
       {formControls.map((controlItems) => (
-        <div key={controlItems.name}>
+        <div key={controlItems.name} className="space-y-2">
           <Label htmlFor={controlItems.name}>{controlItems.label}</Label>
           {renderComponentByType(controlItems)}
         </div>
