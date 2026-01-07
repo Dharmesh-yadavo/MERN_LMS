@@ -9,14 +9,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Delete, Edit } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const InstructorCourses = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Card>
         <CardHeader className="flex flex-row justify-between items-center">
           <CardTitle className="text-2xl font-extrabold">All Courses</CardTitle>
-          <Button className="p-6">Create New Courses</Button>
+          <Button
+            onClick={() => navigate("/instructor/create-new-course")}
+            className="p-6"
+          >
+            Create New Courses
+          </Button>
         </CardHeader>
         <CardContent>
           <div className="">
