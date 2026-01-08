@@ -1,15 +1,18 @@
-/* eslint-disable no-unused-vars */
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { InstructorContext } from "@/context/instructor-context";
 import { mediaUploadService } from "@/servises";
 import { useContext } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const CourseSettings = () => {
-  const { courseLandingFormData, setCourseLandingFormData } =
-    useContext(InstructorContext);
+  const {
+    courseLandingFormData,
+    setCourseLandingFormData,
+    mediaUploadProgress,
+    setMediaUploadProgress,
+  } = useContext(InstructorContext);
 
   const handleImageUploadChange = async (event) => {
     const selectedImage = event.target.files[0];
@@ -19,12 +22,14 @@ const CourseSettings = () => {
       imageFormData.append("file", selectedImage);
 
       try {
+        setMediaUploadProgress(true);
         const response = await mediaUploadService(imageFormData);
         if (response.success) {
           setCourseLandingFormData({
             ...courseLandingFormData,
             image: response.data.url,
           });
+          setMediaUploadProgress(false);
         }
       } catch (error) {
         console.log(error);
@@ -37,6 +42,14 @@ const CourseSettings = () => {
       <CardHeader>
         <CardTitle>Course Settings</CardTitle>
       </CardHeader>
+      <div className="p-4">
+        {mediaUploadProgress && (
+          <div className="">
+            {/* this is done using material ui */}
+            <LinearProgress sx={{ height: 8, borderRadius: 4 }} />
+          </div>
+        )}
+      </div>
       <CardContent>
         {courseLandingFormData?.image ? (
           <img src={courseLandingFormData.image} />

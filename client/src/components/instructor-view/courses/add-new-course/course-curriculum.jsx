@@ -8,6 +8,7 @@ import { courseCurriculumInitialFormData } from "@/config";
 import { InstructorContext } from "@/context/instructor-context";
 import { mediaUploadService } from "@/servises";
 import { useContext } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const CourseCurriculum = () => {
   const {
@@ -78,6 +79,14 @@ const CourseCurriculum = () => {
       </CardHeader>
       <CardContent>
         <Button onClick={handleAddNewLecture}>Add Lecture</Button>
+        <div className="mt-4 mb-4">
+          {mediaUploadProgress && (
+            <div className="mb-4">
+              {/* this is done using material ui */}
+              <LinearProgress sx={{ height: 8, borderRadius: 4 }} />
+            </div>
+          )}
+        </div>
         <div className="mt-4 space-y-4">
           {courseCurriculumFormData.map((curriculumItem, index) => (
             <div className="border p-4 rounded-md" key={index}>
@@ -108,7 +117,6 @@ const CourseCurriculum = () => {
                   type="file"
                   accept="video/*"
                   onChange={(event) => handleSingleLectureUpload(event, index)}
-                  // value={courseCurriculumFormData[index]?.title}
                   className="mb-4"
                 />
               </div>
