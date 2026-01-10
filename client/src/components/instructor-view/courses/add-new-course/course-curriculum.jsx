@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { courseCurriculumInitialFormData } from "@/config";
 import { InstructorContext } from "@/context/instructor-context";
-import { mediaUploadService } from "@/servises";
+import { mediaDeleteService, mediaUploadService } from "@/servises";
 import { useContext } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import VideoPlayer from "@/components";
@@ -73,13 +73,48 @@ const CourseCurriculum = () => {
     }
   };
 
+  const isCourseCurriculumFormDataValid = () => {
+    return courseCurriculumFormData.every((item) => {
+      return (
+        item &&
+        typeof item === "object" &&
+        item.title.trim() !== "" &&
+        item.videoUrl.trim() !== ""
+      );
+    });
+  };
+
+  const handleReplaceVideo = async (currentIndex) => {
+    let copyCourseCurriculumFormData = [...courseCurriculumFormData];
+    const getCurrentVideoPublicId =
+      copyCourseCurriculumFormData[currentIndex].public_id;
+
+    const deleteCurrentMediaResponse = await mediaDeleteService(
+      getCurrentVideoPublicId
+    );
+
+    if (deleteCurrentMediaResponse?.success) {
+      copyCourseCurriculumFormData[currentIndex] = {
+        ...copyCourseCurriculumFormData[currentIndex],
+        videoUrl: "",
+        public_id: "",
+      };
+    }
+    setCourseCurriculumFormData(copyCourseCurriculumFormData);
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
         <CardTitle>Create Course Curriculum</CardTitle>
       </CardHeader>
       <CardContent>
-        <Button onClick={handleAddNewLecture}>Add Lecture</Button>
+        <Button
+          disabled={!isCourseCurriculumFormDataValid() || mediaUploadProgress}
+          onClick={handleAddNewLecture}
+        >
+          Add Lecture
+        </Button>
         <div className="mt-4 mb-4">
           {mediaUploadProgress && (
             <div className="mb-4">
@@ -121,7 +156,9 @@ const CourseCurriculum = () => {
                       width={"500px"}
                       height={"300px"}
                     />
-                    <Button>Replace Video</Button>
+                    <Button onClick={() => handleReplaceVideo(index)}>
+                      Replace Video
+                    </Button>
                     <Button className="bg-red-800">Delete Lecture</Button>
                   </div>
                 ) : (
