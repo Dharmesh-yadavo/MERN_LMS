@@ -9,6 +9,7 @@ import { InstructorContext } from "@/context/instructor-context";
 import { mediaUploadService } from "@/servises";
 import { useContext } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
+import VideoPlayer from "@/components";
 
 const CourseCurriculum = () => {
   const {
@@ -113,12 +114,26 @@ const CourseCurriculum = () => {
                 </div>
               </div>
               <div className="mt-4">
-                <Input
-                  type="file"
-                  accept="video/*"
-                  onChange={(event) => handleSingleLectureUpload(event, index)}
-                  className="mb-4"
-                />
+                {courseCurriculumFormData[index]?.videoUrl ? (
+                  <div className="flex gap-3">
+                    <VideoPlayer
+                      url={courseCurriculumFormData[index]?.videoUrl}
+                      width={"500px"}
+                      height={"300px"}
+                    />
+                    <Button>Replace Video</Button>
+                    <Button className="bg-red-800">Delete Lecture</Button>
+                  </div>
+                ) : (
+                  <Input
+                    type="file"
+                    accept="video/*"
+                    onChange={(event) =>
+                      handleSingleLectureUpload(event, index)
+                    }
+                    className="mb-4"
+                  />
+                )}
               </div>
             </div>
           ))}
