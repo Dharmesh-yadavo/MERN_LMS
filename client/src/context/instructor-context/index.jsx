@@ -18,6 +18,8 @@ const InstructorProvider = ({ children }) => {
 
   const [mediaUploadProgress, setMediaUploadProgress] = useState(false);
 
+  const [instructorCourseList, setInstructorCourseList] = useState([]);
+
   return (
     <InstructorContext.Provider
       value={{
@@ -27,6 +29,8 @@ const InstructorProvider = ({ children }) => {
         setCourseCurriculumFormData,
         mediaUploadProgress,
         setMediaUploadProgress,
+        instructorCourseList,
+        setInstructorCourseList,
       }}
     >
       {children}
