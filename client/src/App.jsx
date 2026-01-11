@@ -34,6 +34,16 @@ function App() {
       ),
     },
     {
+      path: "/instructor/edit-course/:courseId",
+      element: (
+        <RouteGuard
+          element={<AddNewCoursePage />}
+          authenticated={auth?.authenticated}
+          user={auth?.user}
+        />
+      ),
+    },
+    {
       path: "/instructor/create-new-course",
       element: (
         <RouteGuard
