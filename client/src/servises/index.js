@@ -60,3 +60,9 @@ export async function updateCourseByIdService(id, formData) {
 
   return data;
 }
+
+export const mediaBulkUploadService = async (formData) => {
+  const { data } = await axiosInstance.post("/media/bulk-upload", formData);
+
+  return data;
+};

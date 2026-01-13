@@ -6,10 +6,15 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { courseCurriculumInitialFormData } from "@/config";
 import { InstructorContext } from "@/context/instructor-context";
-import { mediaDeleteService, mediaUploadService } from "@/servises";
-import { useContext } from "react";
+import {
+  mediaBulkUploadService,
+  mediaDeleteService,
+  mediaUploadService,
+} from "@/servises";
+import { useContext, useRef } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import VideoPlayer from "@/components";
+import { Upload } from "lucide-react";
 
 const CourseCurriculum = () => {
   const {
@@ -18,6 +23,8 @@ const CourseCurriculum = () => {
     mediaUploadProgress,
     setMediaUploadProgress,
   } = useContext(InstructorContext);
+
+  const bulkUploadInputRef = useRef(null);
 
   const handleAddNewLecture = () => {
     setCourseCurriculumFormData([
@@ -103,10 +110,87 @@ const CourseCurriculum = () => {
     setCourseCurriculumFormData(copyCourseCurriculumFormData);
   };
 
+  const handleOpenBulkUpload = () => {
+    bulkUploadInputRef.current?.click();
+  };
+
+  const areAllCourseCurriculumFormDataObjectsEmpty = (arr) => {
+    return arr.every((obj) => {
+      return Object.entries(obj).every(([key, value]) => {
+        if (typeof value === "boolean") {
+          return true;
+        }
+        return value === "";
+      });
+    });
+  };
+
+  const handleMediaBulkUpload = async (event) => {
+    const selectedFile = Array.from(event.target.files);
+
+    // console.log(selectedFile);
+
+    const bulkFormData = new FormData();
+    selectedFile.forEach((fileItem) => {
+      bulkFormData.append("files", fileItem);
+    });
+
+    try {
+      setMediaUploadProgress(true);
+      const response = await mediaBulkUploadService(bulkFormData);
+
+      console.log(response, "bulk");
+      if (response?.success) {
+        let cpyCourseCurriculumFormdata =
+          areAllCourseCurriculumFormDataObjectsEmpty(courseCurriculumFormData)
+            ? []
+            : [...courseCurriculumFormData];
+
+        cpyCourseCurriculumFormdata = [
+          ...cpyCourseCurriculumFormdata,
+          // eslint-disable-next-line no-unsafe-optional-chaining
+          ...response?.data.map((item, index) => ({
+            videoUrl: item?.url,
+            public_id: item?.public_id,
+            title: `Lecture ${
+              cpyCourseCurriculumFormdata.length + (index + 1)
+            }`,
+            freePreview: false,
+          })),
+        ];
+        setCourseCurriculumFormData(cpyCourseCurriculumFormdata);
+        setMediaUploadProgress(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
         <CardTitle>Create Course Curriculum</CardTitle>
+        <div className="">
+          <Input
+            type="file"
+            accept="video/*"
+            multiple
+            ref={bulkUploadInputRef}
+            className="hidden"
+            id="bulk-media-upload"
+            onChange={handleMediaBulkUpload}
+          />
+          <Button
+            as="label"
+            htmlFor="bulk-media-upload"
+            variant="outline"
+            className="cursor-pointer "
+            onClick={handleOpenBulkUpload}
+          >
+            <Upload className="w-4 h-5 mr-2" />
+            Bulk Upload
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <Button
