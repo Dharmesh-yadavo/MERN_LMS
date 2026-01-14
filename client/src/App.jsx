@@ -8,6 +8,7 @@ import { StudentViewCommonLayout } from "./components/student-view/common-layout
 import { StudentHomePage } from "./pages/student/home/index.jsx";
 import { NotFoundPage } from "./pages/not-found/index.jsx";
 import AddNewCoursePage from "./pages/instructor/add-new-course.jsx";
+import StudentViewCoursesPage from "./pages/student/courses/index.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -70,6 +71,10 @@ function App() {
         {
           path: "/home",
           element: <StudentHomePage />,
+        },
+        {
+          path: "/courses",
+          element: <StudentViewCoursesPage />,
         },
       ],
     },
