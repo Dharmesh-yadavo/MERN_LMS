@@ -3,7 +3,7 @@ import banner from "/banner.png";
 import { Button } from "@/components/ui/button";
 import { useContext, useEffect } from "react";
 import { StudentContext } from "@/context/student-context";
-import { fetchStudentCourseListService } from "@/servises";
+import { fetchStudentViewCourseListService } from "@/servises";
 
 export const StudentHomePage = () => {
   const { studentViewCoursesList, setStudentViewCoursesList } =
@@ -11,7 +11,7 @@ export const StudentHomePage = () => {
 
   const fetchAllStudentViewCourses = async () => {
     try {
-      const res = await fetchStudentCourseListService();
+      const res = await fetchStudentViewCourseListService();
 
       if (res?.success) setStudentViewCoursesList(res?.data);
 

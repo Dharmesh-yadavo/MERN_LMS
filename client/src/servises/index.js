@@ -67,16 +67,16 @@ export const mediaBulkUploadService = async (formData) => {
   return data;
 };
 
-export async function fetchStudentCourseListService() {
-  const { data } = await axiosInstance.get(`/student/course/get`);
+export const fetchStudentViewCourseListService = async (query) => {
+  const { data } = await axiosInstance.get(`/student/course/get?${query}`);
 
   return data;
-}
+};
 
-export async function fetchStudentCourseDetailsService(courseId) {
+export const fetchStudentViewCourseDetailsService = async (courseId) => {
   const { data } = await axiosInstance.get(
     `/student/course/get/details/${courseId}`
   );
 
   return data;
-}
+};
