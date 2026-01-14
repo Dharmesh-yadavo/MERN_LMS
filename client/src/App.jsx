@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "./context/auth-context/index.jsx";
 import { InstructorDashboardPage } from "./pages/instructor/index.jsx";
 import { StudentViewCommonLayout } from "./components/student-view/common-layout.jsx";
-import { StudentHomePage } from "./pages/student/index.jsx";
+import { StudentHomePage } from "./pages/student/home/index.jsx";
 import { NotFoundPage } from "./pages/not-found/index.jsx";
 import AddNewCoursePage from "./pages/instructor/add-new-course.jsx";
 
