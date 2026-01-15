@@ -13,7 +13,7 @@ import {
 } from "@/servises";
 import { useContext, useRef } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
-import VideoPlayer from "@/components";
+import VideoPlayer from "@/components/video-player";
 import { Upload } from "lucide-react";
 
 const CourseCurriculum = () => {
