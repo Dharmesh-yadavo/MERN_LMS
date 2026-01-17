@@ -46,7 +46,7 @@ export async function addNewCourseService(formData) {
 
 export async function fetchInstructorCourseDetailsService(id) {
   const { data } = await axiosInstance.get(
-    `/instructor/course/get/details/${id}`
+    `/instructor/course/get/details/${id}`,
   );
 
   return data;
@@ -55,7 +55,7 @@ export async function fetchInstructorCourseDetailsService(id) {
 export async function updateCourseByIdService(id, formData) {
   const { data } = await axiosInstance.put(
     `/instructor/course/update/${id}`,
-    formData
+    formData,
   );
 
   return data;
@@ -75,8 +75,28 @@ export const fetchStudentViewCourseListService = async (query) => {
 
 export const fetchStudentViewCourseDetailsService = async (courseId) => {
   const { data } = await axiosInstance.get(
-    `/student/course/get/details/${courseId}`
+    `/student/course/get/details/${courseId}`,
   );
 
   return data;
 };
+
+export async function createPaymentService(formData) {
+  const { data } = await axiosInstance.post(`/student/order/create`, formData);
+
+  return data;
+}
+
+export async function captureAndFinalizePaymentService(
+  paymentId,
+  payerId,
+  orderId,
+) {
+  const { data } = await axiosInstance.post(`/student/order/capture`, {
+    paymentId,
+    payerId,
+    orderId,
+  });
+
+  return data;
+}

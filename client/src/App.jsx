@@ -10,6 +10,7 @@ import { NotFoundPage } from "./pages/not-found/index.jsx";
 import AddNewCoursePage from "./pages/instructor/add-new-course.jsx";
 import StudentViewCoursesPage from "./pages/student/courses/index.jsx";
 import StudentViewCourseDetailsPage from "./pages/student/course-details/index.jsx";
+import PaypalPaymentReturnPage from "./pages/student/payment-return/index.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -80,6 +81,10 @@ function App() {
         {
           path: "/course/details/:id",
           element: <StudentViewCourseDetailsPage />,
+        },
+        {
+          path: "/payment-return",
+          element: <PaypalPaymentReturnPage />,
         },
       ],
     },
